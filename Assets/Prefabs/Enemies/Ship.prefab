@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 54310063121843798}
   m_Layer: 2
   m_Name: Ship
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -740,7 +740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4061237200490524}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bone003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1670,7 +1670,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4839208680655530}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2511,7 +2511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4889545864953710}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bone002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3848,7 +3848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4168637992212416}
   - component: {fileID: 65162730370139070}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Mesh
   m_TagString: Enemy
   m_Icon: {fileID: 0}
