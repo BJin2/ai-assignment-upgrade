@@ -1,0 +1,206 @@
+fileFormatVersion: 2
+guid: cc70b6dd56c872448a0f047b15f0215b
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: aileronleft
+    100002: aileronright
+    100004: //RootNode
+    100006: backwheelhub
+    100008: backwheelrubber
+    100010: flapleft
+    100012: flapright
+    100014: fuselage
+    100016: glassfixed
+    100018: glassopen
+    100020: hubspin
+    100022: opencage
+    100024: pitch_Pitch
+    100026: propspin
+    100028: rudder
+    100030: supportleft
+    100032: supportright
+    100034: wheelhubleft
+    100036: wheelhubright
+    100038: wheelrubberleft
+    100040: wheelrubberrigh
+    400000: aileronleft
+    400002: aileronright
+    400004: //RootNode
+    400006: backwheelhub
+    400008: backwheelrubber
+    400010: flapleft
+    400012: flapright
+    400014: fuselage
+    400016: glassfixed
+    400018: glassopen
+    400020: hubspin
+    400022: opencage
+    400024: pitch_Pitch
+    400026: propspin
+    400028: rudder
+    400030: supportleft
+    400032: supportright
+    400034: wheelhubleft
+    400036: wheelhubright
+    400038: wheelrubberleft
+    400040: wheelrubberrigh
+    2100000: 'Material #169'
+    2100002: 'Material #163'
+    2100004: 'Material #178'
+    2100006: 'Material #181'
+    2100008: _Me109hull
+    2100010: 'Material #156'
+    2100012: 'Material #165'
+    2100014: 'Material #160'
+    2100016: 'Material #159'
+    2100018: 'Material #174'
+    2100020: 'Material #168'
+    2100022: 'Material #173'
+    2100024: 'Material #172'
+    2100026: _Me109glass
+    2100028: 'Material #164'
+    2100030: 'Material #175'
+    2300000: aileronleft
+    2300002: aileronright
+    2300004: backwheelhub
+    2300006: backwheelrubber
+    2300008: flapleft
+    2300010: flapright
+    2300012: fuselage
+    2300014: glassfixed
+    2300016: glassopen
+    2300018: hubspin
+    2300020: opencage
+    2300022: pitch_Pitch
+    2300024: propspin
+    2300026: rudder
+    2300028: supportleft
+    2300030: supportright
+    2300032: wheelhubleft
+    2300034: wheelhubright
+    2300036: wheelrubberleft
+    2300038: wheelrubberrigh
+    3300000: aileronleft
+    3300002: aileronright
+    3300004: backwheelhub
+    3300006: backwheelrubber
+    3300008: flapleft
+    3300010: flapright
+    3300012: fuselage
+    3300014: glassfixed
+    3300016: glassopen
+    3300018: hubspin
+    3300020: opencage
+    3300022: pitch_Pitch
+    3300024: propspin
+    3300026: rudder
+    3300028: supportleft
+    3300030: supportright
+    3300032: wheelhubleft
+    3300034: wheelhubright
+    3300036: wheelrubberleft
+    3300038: wheelrubberrigh
+    4300000: fuselage
+    4300002: rudder
+    4300004: backwheelhub
+    4300006: backwheelrubber
+    4300008: hubspin
+    4300010: propspin
+    4300012: aileronleft
+    4300014: flapleft
+    4300016: flapright
+    4300018: supportleft
+    4300020: wheelhubleft
+    4300022: wheelrubberleft
+    4300024: supportright
+    4300026: wheelhubright
+    4300028: wheelrubberrigh
+    4300030: opencage
+    4300032: glassopen
+    4300034: glassfixed
+    4300036: pitch_Pitch
+    4300038: aileronright
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

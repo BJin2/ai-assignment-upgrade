@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: 48020dc27de8b534d967003bd75ace4a
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: m4-bajos
+    100002: m4-comt1
+    100004: m4-es087
+    100006: m4-torre
+    100008: Object002
+    100010: Object003
+    100012: Object004
+    100014: Object01
+    100016: //RootNode
+    400000: m4-bajos
+    400002: m4-comt1
+    400004: m4-es087
+    400006: m4-torre
+    400008: Object002
+    400010: Object003
+    400012: Object004
+    400014: Object01
+    400016: //RootNode
+    2100000: m4-carro
+    2100002: m4-carro1
+    2100004: m4-mader1
+    2100006: m4-metal
+    2100008: m4-croma
+    2100010: m4-track
+    2100012: m4-brown2
+    2100014: m4-grey
+    2100016: m4-bidon
+    2100018: m4-brown
+    2100020: m4-chrom
+    2100022: m4-mader
+    2100024: m4-name
+    2100026: m4-brown1
+    2100028: m4-black
+    2100030: m4-rueda
+    2100032: m4-cajas
+    2300000: m4-bajos
+    2300002: m4-comt1
+    2300004: m4-es087
+    2300006: m4-torre
+    2300008: Object002
+    2300010: Object003
+    2300012: Object004
+    2300014: Object01
+    3300000: m4-bajos
+    3300002: m4-comt1
+    3300004: m4-es087
+    3300006: m4-torre
+    3300008: Object002
+    3300010: Object003
+    3300012: Object004
+    3300014: Object01
+    4300000: m4-torre
+    4300002: m4-bajos
+    4300004: m4-es087
+    4300006: m4-comt1
+    4300008: Object01
+    4300010: Object002
+    4300012: Object003
+    4300014: Object004
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-bidon
+    second: {fileID: 2100000, guid: cc7f8ae6c1cedab4c928feab8c1b850c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-black
+    second: {fileID: 2100000, guid: 3ce90bfc4eeb5d148bdfc56d974473ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-brown
+    second: {fileID: 2100000, guid: d691f1ba69076424badb8a88b3ea6f5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-brown1
+    second: {fileID: 2100000, guid: 4718734079826c240b7317878771eab3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-brown2
+    second: {fileID: 2100000, guid: 0bfc9abd8faa8f14bb6c35ec34530d2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-cajas
+    second: {fileID: 2100000, guid: d0a8e2f1b8e24fb4da8fa226b6b4b054, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-carro
+    second: {fileID: 2100000, guid: 2fd4f7913d2cf164da078d8c3561c0e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-carro1
+    second: {fileID: 2100000, guid: 12443921510069c47afffe82a8d9ca55, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-chrom
+    second: {fileID: 2100000, guid: da26503606b73694ea6e50875a1975b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-croma
+    second: {fileID: 2100000, guid: 143cdb7439097574a883bbea7d01aac5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-grey
+    second: {fileID: 2100000, guid: 74bc7315046256041a8ef2606500353a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-mader
+    second: {fileID: 2100000, guid: e080f35c05adf1e4492883196a12d527, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-mader1
+    second: {fileID: 2100000, guid: d38b0e1addab14648abb9c39e19fb6c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-metal
+    second: {fileID: 2100000, guid: 70fb1bd00bb23c44ab77b8802fd60734, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-name
+    second: {fileID: 2100000, guid: a00584879fe5785419e89d94643dd5b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-rueda
+    second: {fileID: 2100000, guid: 3699e8a3fda0d964da44184cbabea081, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m4-track
+    second: {fileID: 2100000, guid: a275a6959fbc2b04085cd1eef6cd33a2, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
