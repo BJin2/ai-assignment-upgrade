@@ -1,36 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using TMP = TMPro.TextMeshProUGUI;
 
 public class HUD : MonoBehaviour 
 {
-	[SerializeField] private Text coolTime;
-	[SerializeField] private Text resource;
-	[SerializeField] private Text numOfEnemy;
-	[SerializeField] private Text hp;
+	[SerializeField] private TMP coolTime;
+	[SerializeField] private TMP resource;
+	[SerializeField] private TMP numOfEnemy;
+	[SerializeField] private TMP hp;
 
-	public void UpdateResource(int r)
+	public void UpdateResource(int _resource)
 	{
-		resource.text = r.ToString();
+		resource.text = _resource.ToString();
 	}
-	public void UpdateNumOfEnemy(int n)
+	public void UpdateNumOfEnemy(int _numOfEnemy)
 	{
-		numOfEnemy.text = n.ToString();
+		numOfEnemy.text = _numOfEnemy.ToString();
 	}
-	public void UpdateCoolTime(float c)
+	public void UpdateCoolTime(float _coolTime)
 	{
-		coolTime.text = Mathf.Floor(c).ToString();
+		coolTime.text = Mathf.Floor(_coolTime).ToString();
 	}
-	public void UpdateHP(float h)
+	public void UpdateHP(float _hp)
 	{
-		hp.text = h.ToString();
+		hp.text = _hp.ToString();
 	}
-	public void UpdateAll(int r, int n, float c, float h)
+	public void UpdateAll(int _resource, int _numOfEnemy, float _coolTime, float _hp)
 	{
-		resource.text = r.ToString();
-		numOfEnemy.text = n.ToString();
-		coolTime.text = Mathf.Floor(c).ToString();
-		hp.text = h.ToString();
+		UpdateResource(_resource);
+		UpdateNumOfEnemy(_numOfEnemy);
+		UpdateCoolTime(_coolTime);
+		UpdateHP(_hp);
 	}
 }
