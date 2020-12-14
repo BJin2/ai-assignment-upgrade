@@ -11,7 +11,7 @@ public class GameoverMenu : MonoBehaviour
 	}
 	public void Restart()
 	{
-		Player.PlayTimeScale = 1.0f;
+		Time.timeScale = 1.0f;
 		SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
 	}
 	public void Exit()

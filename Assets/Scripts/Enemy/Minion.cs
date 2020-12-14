@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Minion : Humanoid 
 {
@@ -19,18 +17,18 @@ public class Minion : Humanoid
 				case 0://Turn Toward target
 					transform.rotation = Quaternion.RotateTowards(transform.rotation,
 															Quaternion.LookRotation(targetPos - transform.position),
-															90 * Time.deltaTime * Player.PlayTimeScale);
+															90 * Time.deltaTime);
 					break;
 				case 1://Turn Right
-					transform.Rotate(0, 90 * Time.deltaTime * Player.PlayTimeScale, 0);
+					transform.Rotate(0, 90 * Time.deltaTime, 0);
 					break;
 				case -1://Turn Left
-					transform.Rotate(0, -90 * Time.deltaTime * Player.PlayTimeScale, 0);
+					transform.Rotate(0, -90 * Time.deltaTime, 0);
 					break;
 			}
 		}
 		//Move to target (Straight)
-		transform.Translate(transform.forward * speed * Time.deltaTime * Player.PlayTimeScale);
+		transform.Translate(transform.forward * speed * Time.deltaTime);
 		if (transform.position.z <= targetPos.z)// Arrived
 		{
 			InAttackRange();

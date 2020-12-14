@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class Instruction : MonoBehaviour 
 {
-	[SerializeField] private Sprite[] instPic;
+	[SerializeField]
+	private Sprite[] instPic = null;
 
-	private Image inst;
+	private Image inst = null;
 	private int imgIndex = 0;
 
 	private void Awake()

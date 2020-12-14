@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4018070577400220}
   - component: {fileID: 114656577705618814}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 23324177828718936}
   - component: {fileID: 65102850357503668}
   - component: {fileID: 54662573864782924}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 23320070258565478}
   - component: {fileID: 65913007778386252}
   - component: {fileID: 54943844655152146}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4794377675830320}
   - component: {fileID: 65314414915514960}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Obstacle
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 23001902407006884}
   - component: {fileID: 65062335283097758}
   - component: {fileID: 54851419842132260}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}

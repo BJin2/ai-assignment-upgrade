@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Obstacle : Enemy 
 {
@@ -14,6 +12,8 @@ public class Obstacle : Enemy
 		rigidbodyList = transform.GetComponentsInChildren<Rigidbody>();
 		canTakeDamage = true;
 	}
+
+	//Does not do anything except dying and blocking path
 	public override void Attack()
 	{
 

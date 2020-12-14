@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Mortar : Weapon 
 {
-	private static Transform aim;
-	private Transform spawner;
+	private static Transform aim = null;
+	private Transform spawner = null;
 
 	private void Awake()
 	{
@@ -13,14 +11,9 @@ public class Mortar : Weapon
 			aim = GameObject.Find("Mortar_Aim").transform;
 		spawner = transform.Find("Spawner");
 		effect.GetComponent<PlayerProjectile>().Damage = damage;
-		hitPoint = Vector3.zero;
-		coolCounter = coolTime;
+		WeaponDeactivated();
 	}
-	private void Start()
-	{
-		aim.gameObject.SetActive(false);
-		gameObject.SetActive(false);
-	}
+
 	private void Update()
 	{
 		if (hitPoint != Vector3.zero)
@@ -28,10 +21,10 @@ public class Mortar : Weapon
 			aim.position = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
 		}
 
-		coolCounter += Time.deltaTime * Player.PlayTimeScale;
+		coolCounter += Time.deltaTime;
 		if (coolCounter >= coolTime)
 		{
-			Player.GetPlayer().CoolDown(true);
+			Player.Instance.CoolDown(true);
 			coolCounter = coolTime;
 		}
 	}
@@ -41,8 +34,8 @@ public class Mortar : Weapon
 		effect.transform.position = spawner.position;
 		effect.transform.rotation = spawner.rotation;
 		effect.GetComponent<PlayerProjectile>().TargetPoint = aim.Find("Drop_Point").position;
-		Player.GetPlayer().CoolDown(false);
-		CameraMove.GetCam().Recoil(recoil);
+		Player.Instance.CoolDown(false);
+		CameraMove.Instance.Recoil(recoil);
 		coolCounter = 0;
 	}
 	public override void WeaponActivated()

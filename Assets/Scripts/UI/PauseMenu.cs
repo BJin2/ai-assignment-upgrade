@@ -11,13 +11,13 @@ public class PauseMenu : MonoBehaviour
 	}
 	public void Resume()
 	{
-		Player.PlayTimeScale = 1.0f;
+		Time.timeScale = 1.0f;
 		gameObject.SetActive(false);
 	}
 
 	public void Exit()
 	{
-		Player.PlayTimeScale = 1.0f;
+		Time.timeScale = 1.0f;
 		SceneManager.LoadScene("MainMenu");
 	}
 }

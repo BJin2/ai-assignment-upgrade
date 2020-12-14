@@ -3,10 +3,10 @@ using TMP = TMPro.TextMeshProUGUI;
 
 public class HUD : MonoBehaviour 
 {
-	[SerializeField] private TMP coolTime;
-	[SerializeField] private TMP resource;
-	[SerializeField] private TMP numOfEnemy;
-	[SerializeField] private TMP hp;
+	[SerializeField] private TMP coolTime = null;
+	[SerializeField] private TMP resource = null;
+	[SerializeField] private TMP numOfEnemy = null;
+	[SerializeField] private TMP hp = null;
 
 	public void UpdateResource(int _resource)
 	{

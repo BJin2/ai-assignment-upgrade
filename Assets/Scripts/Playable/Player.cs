@@ -4,35 +4,36 @@ using UnityEngine;
 
 public class Player : MonoBehaviour 
 {
+	public static Player Instance { get; private set; }
+
 	//Weapon
-	[SerializeField] private Weapon[] weaponList;
-	private WeaponSelect weaponToSelect;
-	private int curWeaponIndex;
+	[SerializeField]
+	private Weapon[] weaponList = null;
+	private WeaponSelect weaponToSelect = null;
+	private int curWeaponIndex = 0;
 
 	//Player status
-	private int money;
-	private float health;
+	private int money = 0;
+	private float health = 0;
 	private const float MAX_HEALTH = 1000;
 
 	//Targeting
     private RaycastHit hit;
     private Ray ray;
 	private int layerMask;
-	private const int DEFAULT_LAYER = 1;
-	private const int ENEMY_LAYER = 1 << 9;
-	private const int BOTH_LAYER = DEFAULT_LAYER | ENEMY_LAYER;
+	public const int DEFAULT_LAYER = 1;
+	public const int ENEMY_LAYER = 1 << 8;
+	public const int BOTH_LAYER = DEFAULT_LAYER | ENEMY_LAYER;
 
-    private Vector3 targetPos;
-    private Quaternion lookRot;
+    private Vector3 targetPos = Vector3.zero;
+    private Quaternion lookRot = Quaternion.identity;
 
-	private Enemy targetEnemy;
-	private static Vector3 hitPoint;
-	public static Vector3 HitPoint { get { return hitPoint; } }
+	private Enemy targetEnemy = null;
+	public Vector3 HitPoint { get; private set; }
 
     private bool isCooldown;
 
-	public static float PlayTimeScale = 1.0f;
-	public static int RemainingEnemy;
+	private int RemainingEnemy = -1;
 
 	private GameObject pauseMenu;
 	private GameObject shopMenu;
@@ -42,15 +43,25 @@ public class Player : MonoBehaviour
 
 	private void Awake()
 	{
+		Instance = this;
+
 		pauseMenu = GameObject.Find("PauseMenu");
 		shopMenu = GameObject.Find("ShopMenu");
 		gameoverMenu = GameObject.Find("GameoverMenu");
 		winMenu = GameObject.Find("WinMenu");
 		hud = GameObject.Find("HUD").GetComponent<HUD>();
+		weaponList = new Weapon[6];
+		for (int i = 0; i < 6; i++)
+		{
+			weaponList[i] = transform.Find(i.ToString()).GetComponent<Weapon>(); ;
+		}
 	}
 	private void Start ()
 	{
-		PlayTimeScale = 1.0f;
+		foreach (Weapon weapon in weaponList)
+		{
+			weapon.gameObject.SetActive(false);
+		}
 		weaponToSelect = null;
 		curWeaponIndex = 0;
 		money = 0;
@@ -65,6 +76,9 @@ public class Player : MonoBehaviour
 	
 	private void Update () 
 	{
+		if (Time.deltaTime == 0.0f)
+			return;
+
         //Raycast (To where the mouse cursor is pointing)
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		if (Physics.Raycast(ray, out hit, 80, layerMask)) // Detect Default Layer only
@@ -84,11 +98,11 @@ public class Player : MonoBehaviour
 				targetEnemy = hit.collider.transform.parent.GetComponent<Enemy>();
 			}
 
-			hitPoint = hit.point;
+			HitPoint = hit.point;
 		}
 		else
 		{
-			hitPoint = new Vector3(100, 100, 100);
+			HitPoint = new Vector3(100, 100, 100);
 			weaponToSelect = null;
 			targetEnemy = null;
 		}
@@ -96,7 +110,7 @@ public class Player : MonoBehaviour
 
 		if (layerMask != BOTH_LAYER)	// When aiming with mortar or air support
 		{
-			weaponList[curWeaponIndex].HitPoint = hitPoint;
+			weaponList[curWeaponIndex].HitPoint = HitPoint;
 		}
 
 		//Shoot or Select Weapon
@@ -125,22 +139,18 @@ public class Player : MonoBehaviour
 				}
 				else // Open Shop
 				{
-					if(PlayTimeScale != 0)
-					{
-						PlayTimeScale = 0;
-						shopMenu.SetActive(true);
-					}
+					shopMenu.SetActive(true);
 				}
 			}
-			else if (isCooldown && PlayTimeScale > 0) // Shoot
+			else if (isCooldown && Time.timeScale > 0) // Shoot
 			{
-				weaponList[curWeaponIndex].Fire(targetEnemy, hitPoint);
+				weaponList[curWeaponIndex].Fire(targetEnemy, HitPoint);
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape) && PlayTimeScale!= 0)
+		if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale  != 0)
 		{
-			PlayTimeScale = 0;
+			Time.timeScale = 0;
 			pauseMenu.SetActive(true);
 		}
 		else if (Input.GetKeyDown(KeyCode.Space))//For test
@@ -160,7 +170,7 @@ public class Player : MonoBehaviour
         //Player Rotation(Rotate toward cursor)
         targetPos = new Vector3(ray.direction.x*1.3f, transform.position.y, ray.direction.z);
         lookRot = Quaternion.LookRotation(targetPos - transform.position);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRot, 40 * PlayTimeScale);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRot, 40 * Time.timeScale);
 	}
 	public void CoolDown(bool cooled)
 	{
@@ -183,7 +193,7 @@ public class Player : MonoBehaviour
 			health = 0;
 			Debug.Log("Game Over");
 			//*
-			PlayTimeScale = 0;
+			Time.timeScale = 0;
 			pauseMenu.SetActive(false);
 			shopMenu.SetActive(false);
 			gameoverMenu.SetActive(true);
@@ -195,19 +205,22 @@ public class Player : MonoBehaviour
 	{
 		health = MAX_HEALTH;
 	}
-	public static Player GetPlayer()
+	public void SetInitialRemainingEnemy(int num)
 	{
-		return GameObject.Find("Player").GetComponent<Player>();
+		if (RemainingEnemy == -1)
+		{
+			RemainingEnemy = num;
+		}
 	}
-	public static void ReduceRemainingEnemy()
+	public void ReduceRemainingEnemy()
 	{
 		RemainingEnemy--;
 		if (RemainingEnemy <= 0)
 		{
 			RemainingEnemy = 0;
-			PlayTimeScale = 0;
-			Player.GetPlayer().winMenu.SetActive(true);
+			Time.timeScale = 0;
+			winMenu.SetActive(true);
 		}
-		Player.GetPlayer().hud.UpdateNumOfEnemy(RemainingEnemy);
+		hud.UpdateNumOfEnemy(RemainingEnemy);
 	}
 }

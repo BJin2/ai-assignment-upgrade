@@ -4,10 +4,14 @@ using UnityEngine;
 
 public abstract class PlayerProjectile : MonoBehaviour 
 {
-	[SerializeField] protected float speed;
-	[SerializeField] protected string midPointName;
-	[SerializeField] protected string endPointName;
-	[SerializeField] protected GameObject explosion;
+	[SerializeField] 
+	protected float speed = 0.0f;
+	[SerializeField] 
+	protected string midPointName = null;
+	[SerializeField] 
+	protected string endPointName = null;
+	[SerializeField] 
+	protected GameObject explosion = null;
 
 	protected Transform midPoint;
 	protected Transform endPoint;
@@ -22,12 +26,9 @@ public abstract class PlayerProjectile : MonoBehaviour
 		midPoint = GameObject.Find(midPointName).transform;
 		endPoint = GameObject.Find(endPointName).transform;
 	}
-	protected void Start () 
-	{
-		gameObject.SetActive(false);
-	}
+
 	protected void Update () 
 	{
-		transform.Translate(Vector3.forward * speed * Time.deltaTime * Player.PlayTimeScale);
+		transform.Translate(Vector3.forward * speed * Time.deltaTime);
 	}
 }

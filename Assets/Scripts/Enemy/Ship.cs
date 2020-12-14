@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ship : Enemy 
 {
@@ -14,14 +11,15 @@ public class Ship : Enemy
 		Landing
 	};
 	private const float DEST_Z = 80.0f;
-	[SerializeField] private GameObject explosion;
-	private Transform door;
-	private int state;
-	private float openSpeed;
-	private bool isReady;
+	[SerializeField] 
+	private GameObject explosion = null;
+	private Transform door = null;
+	private int state = 0;
+	private float openSpeed = 0.0f;
+	private bool isReady = false;
 
-	private Enemy[] enemyList;
-	private float enemyCount;
+	private Enemy[] enemyList = null;
+	private float enemyCount = 0.0f;
 
 	private void Initialize()
 	{
@@ -29,7 +27,6 @@ public class Ship : Enemy
 		health = 300;
 		damage = 0;
 		reward = 500;
-
 		
 		state = (int)State.Going;
 		openSpeed = 40;
@@ -58,15 +55,15 @@ public class Ship : Enemy
 			case (int)State.Going://Ship is going to beach
 			{
 				enemyList = transform.Find("Enemies").GetComponentsInChildren<Enemy>();
-				speed = Mathf.Clamp(speed - 1.5f * Time.deltaTime * Player.PlayTimeScale, 2, speed);
-				transform.Translate(transform.forward * speed * Time.deltaTime * Player.PlayTimeScale * (-1));
+				speed = Mathf.Clamp(speed - 1.5f * Time.deltaTime, 2, speed);
+				transform.Translate(transform.forward * speed * Time.deltaTime * (-1));
 				canTakeDamage = true;
 				break;
 			}
 			case (int)State.Leaving:// Ship is leaving the beach
 			{
-				speed = Mathf.Clamp(speed + 3.5f * Time.deltaTime * Player.PlayTimeScale, speed, 10);
-				transform.Translate(transform.forward * speed * Time.deltaTime * Player.PlayTimeScale);
+				speed = Mathf.Clamp(speed + 3.5f * Time.deltaTime, speed, 10);
+				transform.Translate(transform.forward * speed * Time.deltaTime);
 				canTakeDamage = true;
 				if (transform.position.z >= DEST_Z)
 				{
@@ -79,7 +76,7 @@ public class Ship : Enemy
 			}
 			case (int)State.Opening:// Opening the door for enemies
 			{
-				door.localEulerAngles = new Vector3(0, 0, door.localEulerAngles.z + openSpeed * Time.deltaTime * Player.PlayTimeScale);
+				door.localEulerAngles = new Vector3(0, 0, door.localEulerAngles.z + openSpeed * Time.deltaTime);
 				if (door.localEulerAngles.z <= 180)
 				{
 					if (door.localEulerAngles.z >= 14)
@@ -103,7 +100,7 @@ public class Ship : Enemy
 			}
 			case (int)State.Landing:// Enemies are getting out of the ship
 			{
-				enemyCount += Time.deltaTime * Player.PlayTimeScale;
+				enemyCount += Time.deltaTime;
 				if (enemyCount >= 4.0f)
 				{
 					enemyCount = 0;
@@ -115,7 +112,7 @@ public class Ship : Enemy
 			}
 			case (int)State.Closing:// Closing the door before leaving
 			{
-				door.localEulerAngles = new Vector3(0, 0, door.localEulerAngles.z - openSpeed * Time.deltaTime * Player.PlayTimeScale);
+				door.localEulerAngles = new Vector3(0, 0, door.localEulerAngles.z - openSpeed * Time.deltaTime);
 				if (door.localEulerAngles.z >= 180)
 				{
 					if (door.localEulerAngles.z <= 296)

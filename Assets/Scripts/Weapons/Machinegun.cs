@@ -1,26 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Machinegun : Weapon 
 {
 	protected float effectCounter = 0;
 	protected bool isEffectOn = false;
-	[SerializeField] protected GameObject effect_02;	// dust
-	[SerializeField] protected GameObject effect_03;	// blood
-	[SerializeField] protected GameObject effect_04;	// spark
+	[SerializeField]
+	protected GameObject effect_02 = null;	// dust
+	[SerializeField] 
+	protected GameObject effect_03 = null;	// blood
+	[SerializeField] 
+	protected GameObject effect_04 = null;	// spark
 
-	private void Start()
-	{
-		gameObject.SetActive(false);
-	}
 	public override void Fire(Enemy enemy, Vector3 hitPoint)
 	{
 		GameObject secondEffect;
 		if (enemy == null)
 		{
 			secondEffect = (GameObject)Instantiate(effect_02, hitPoint, effect_02.transform.rotation);
-			Debug.Log("No Target");
 		}
 		else
 		{
@@ -40,19 +36,17 @@ public class Machinegun : Weapon
 			enemy.Attacked(damage);
 		}
 
-		Player.GetPlayer().CoolDown(false);
+		Player.Instance.CoolDown(false);
 
-		CameraMove.GetCam().Recoil(recoil);
+		CameraMove.Instance.Recoil(recoil);
 
 		effect.SetActive(true);
 		isEffectOn = true;
 		Destroy(secondEffect, 1);
-
-		Debug.Log("Shooting");
 	}
 	public override void WeaponActivated()
 	{
-
+		
 	}
 	public override void WeaponDeactivated()
 	{
@@ -60,16 +54,16 @@ public class Machinegun : Weapon
 	}
 	protected void Update()
 	{
-		coolCounter += Time.deltaTime * Player.PlayTimeScale;
+		coolCounter += Time.deltaTime;
 		if (coolCounter >= coolTime)
 		{
-			Player.GetPlayer().CoolDown(true);
+			Player.Instance.CoolDown(true);
 			coolCounter = 0;
 		}
 
 		if (isEffectOn)
 		{
-			effectCounter += Time.deltaTime * Player.PlayTimeScale;
+			effectCounter += Time.deltaTime;
 			if (effectCounter > 0.05f)
 			{
 				effect.SetActive(false);

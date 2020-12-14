@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour 
 {
@@ -21,17 +19,17 @@ public abstract class Enemy : MonoBehaviour
 	protected const float atkWidth_max = 5.4f;
 	protected const float slope = ((atkRange_max - atkRange_min) / (atkWidth_max - atkWidth_min));
 
-	[SerializeField] protected bool canTakeDamage;
+	[SerializeField] 
+	protected bool canTakeDamage;
 
     public void Attacked(float dmg)
     {
 		if (canTakeDamage)
 		{
-			Debug.Log("Hit");
 			health -= dmg;
 			if (health <= 0)
 			{
-				Player.GetPlayer().Earn(reward);
+				Player.Instance.Earn(reward);
 				Death();
 			}
 		}

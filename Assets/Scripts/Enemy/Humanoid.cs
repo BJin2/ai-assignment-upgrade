@@ -1,21 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Humanoid : Enemy
 {
-	[SerializeField] protected GameObject muzzleFlash;
-	protected GameObject ragdoll;
-	protected Transform ragdollTransform;
-	protected Animator anim;
+	[SerializeField] 
+	protected GameObject muzzleFlash = null;
+	protected GameObject ragdoll = null;
+	protected Transform ragdollTransform = null;
+	protected Animator anim = null;
 
-	protected Vector3 targetPos;
+	protected Vector3 targetPos = Vector3.zero;
 
-	protected float maxSpeed;
-	protected float minSpeed;
+	protected float maxSpeed = 0.0f;
+	protected float minSpeed = 0.0f;
 
-	protected int rotDir;
-	private int rayHitChecker;
+	protected int rotDir = 0;
+	private int rayHitChecker = 0;
 	protected void Awake()
 	{
 		canTakeDamage = false;
@@ -34,7 +33,7 @@ public abstract class Humanoid : Enemy
 	{
 		if (anim.GetBool("isInRange"))// Attack state
 		{
-			coolCounter += Time.deltaTime * Player.PlayTimeScale;
+			coolCounter += Time.deltaTime;
 			if (coolCounter >= 0.1f)
 				muzzleFlash.SetActive(false);
 			if (coolCounter >= coolTime)
@@ -65,7 +64,7 @@ public abstract class Humanoid : Enemy
 		rightStart = new Vector3(rightStart.x, 1.3f, rightStart.z);
 		RaycastHit rightHit;
 		Ray rightRay = new Ray(rightStart, rightDir.normalized);
-		if (Physics.Raycast(rightRay, out rightHit, rightDir.magnitude, 1 << 9))
+		if (Physics.Raycast(rightRay, out rightHit, rightDir.magnitude, Player.ENEMY_LAYER))
 		{
 			if (rightHit.collider.transform.parent.GetComponent<Obstacle>() != null)
 			{
@@ -73,7 +72,6 @@ public abstract class Humanoid : Enemy
 				{
 					rotDir = -1;
 				}
-				Debug.Log("Right");
 			}
 			else
 			{
@@ -95,7 +93,7 @@ public abstract class Humanoid : Enemy
 		RaycastHit leftHit;
 
 		Ray leftRay = new Ray(leftStart, leftDir.normalized);
-		if (Physics.Raycast(leftRay, out leftHit, leftDir.magnitude, 1 << 9))
+		if (Physics.Raycast(leftRay, out leftHit, leftDir.magnitude, Player.ENEMY_LAYER))
 		{
 			if (leftHit.collider.transform.parent.GetComponent<Obstacle>() != null)
 			{
@@ -103,7 +101,6 @@ public abstract class Humanoid : Enemy
 				{
 					rotDir = 1;
 				}
-				Debug.Log("Left");
 			}
 			else
 			{
@@ -122,7 +119,7 @@ public abstract class Humanoid : Enemy
 	{
 		muzzleFlash.SetActive(true);
 		anim.Play("Attack", -1, 0f);
-		Player.GetPlayer().Attacked(damage);
+		Player.Instance.Attacked(damage);
 	}
 
 	public void SetStatus(float health, int reward, float maxSpeed, float minSpeed, float damage, float coolTime)
@@ -137,7 +134,7 @@ public abstract class Humanoid : Enemy
 
 	public override void Death()
 	{
-		Player.ReduceRemainingEnemy();
+		Player.Instance.ReduceRemainingEnemy();
 		ragdoll.transform.position = ragdollTransform.position;
 		ragdoll.transform.rotation = ragdollTransform.rotation;
 		ragdoll.transform.parent = null;

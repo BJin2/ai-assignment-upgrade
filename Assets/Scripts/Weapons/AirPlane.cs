@@ -6,11 +6,12 @@ public class AirPlane : PlayerProjectile
 {
 	private int state = 0;
 
-	[SerializeField] private float numberOfExplosion;
-	private float curExplosion;
-	private Transform from;
-	private Transform to;
-	private Vector3 dir;
+	[SerializeField] 
+	private float numberOfExplosion = 0;
+	private float curExplosion = 0;
+	private Transform from = null;
+	private Transform to = null;
+	private Vector3 dir = Vector3.zero;
 
 	new private void Awake()
 	{
@@ -46,7 +47,7 @@ public class AirPlane : PlayerProjectile
 				break;
 			case 1:
 				Quaternion destRot = Quaternion.LookRotation(endPoint.position - transform.position);
-				transform.rotation = Quaternion.Slerp(transform.rotation, destRot, 2 * Time.deltaTime * Player.PlayTimeScale);
+				transform.rotation = Quaternion.Slerp(transform.rotation, destRot, 2 * Time.deltaTime);
 				if (Vector3.Distance(transform.position, endPoint.position) <= 0.2f)
 				{
 					state = 0;

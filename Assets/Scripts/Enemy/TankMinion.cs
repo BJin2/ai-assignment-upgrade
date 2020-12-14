@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TankMinion : Humanoid 
 {
-	private Tank boss;
+	private Tank boss = null;
 	private static int dir = 0;
-	private float side;
-	private float rotSpeed;
+	private float side = 0.0f;
 
 	protected new void Awake()
 	{
@@ -31,14 +28,14 @@ public class TankMinion : Humanoid
 			anim.SetBool("isInRange", true);
 			if (anim.GetBool("isInRange"))// Attack state
 			{
-				coolCounter += Time.deltaTime * Player.PlayTimeScale;
+				coolCounter += Time.deltaTime;
 				if (coolCounter >= 0.1f)
 					muzzleFlash.SetActive(false);
 				if (coolCounter >= coolTime)
 				{
 					muzzleFlash.SetActive(true);
 					anim.Play("Attack", -1, 0f);
-					Player.GetPlayer().Attacked(damage);
+					Player.Instance.Attacked(damage);
 					coolCounter = 0;
 				}
 			}
@@ -57,7 +54,7 @@ public class TankMinion : Humanoid
 					{
 						if(boss.CurObstacle!= null)
 							transform.rotation = Quaternion.LookRotation(boss.CurObstacle.transform.position - transform.position);
-						coolCounter += Time.deltaTime * Player.PlayTimeScale;
+						coolCounter += Time.deltaTime;
 						if (coolCounter >= 0.1f)
 							muzzleFlash.SetActive(false);
 						if (coolCounter >= coolTime)
@@ -100,6 +97,6 @@ public class TankMinion : Humanoid
 			SetTargetPos();
 			transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
 		}
-		transform.Translate(transform.forward * speed * Time.deltaTime * Player.PlayTimeScale);
+		transform.Translate(transform.forward * speed * Time.deltaTime);
 	}
 }

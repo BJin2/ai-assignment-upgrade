@@ -4,23 +4,18 @@ using UnityEngine;
 
 public class AirSupport : Weapon 
 {
-	private static Transform aim;
-	private Transform startPos;
+	private static Transform aim = null;
+	private Transform startPos = null;
 	
 	private void Awake()
 	{
-		if (aim == null)
+		if(aim == null)
 			aim = GameObject.Find("Airsupport_Aim").transform;
-		startPos = GameObject.Find("Air_Start").transform;
+		startPos = aim.Find("Air_Start").transform;
 		effect.GetComponent<PlayerProjectile>().Damage = damage;
-		hitPoint = Vector3.zero;
-		coolCounter = coolTime;
+		WeaponDeactivated();
 	}
-	private void Start()
-	{
-		aim.gameObject.SetActive(false);
-		gameObject.SetActive(false);
-	}
+
 	private void Update()
 	{
 		if (hitPoint != Vector3.zero)
@@ -28,10 +23,10 @@ public class AirSupport : Weapon
 			//aim.position = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
 		}
 
-		coolCounter += Time.deltaTime * Player.PlayTimeScale;
+		coolCounter += Time.deltaTime;
 		if (coolCounter >= coolTime)
 		{
-			Player.GetPlayer().CoolDown(true);
+			Player.Instance.CoolDown(true);
 			coolCounter = coolTime;
 		}
 	}
@@ -40,8 +35,8 @@ public class AirSupport : Weapon
 		effect.SetActive(true);
 		effect.transform.position = startPos.position;
 		effect.transform.rotation = startPos.rotation;
-		Player.GetPlayer().CoolDown(false);
-		CameraMove.GetCam().Recoil(recoil);
+		Player.Instance.CoolDown(false);
+		CameraMove.Instance.Recoil(recoil);
 		coolCounter = 0;
 	}
 	public override void WeaponActivated()

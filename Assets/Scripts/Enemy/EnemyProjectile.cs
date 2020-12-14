@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyProjectile : Enemy 
 {
-	[SerializeField] GameObject explosion;
-	private Vector3 targetPos;
+	[SerializeField]
+	GameObject explosion = null;
+	private Vector3 targetPos = Vector3.zero;
+
 	private void Awake()
 	{
 		reward = 0;
@@ -16,10 +16,10 @@ public class EnemyProjectile : Enemy
 	}
 	private void Update()
 	{
-		transform.rotation = Quaternion.RotateTowards(transform.rotation,
-															Quaternion.LookRotation(targetPos - transform.position),
-															30 * Time.deltaTime * Player.PlayTimeScale);
-		transform.Translate(Vector3.forward * 5 * Time.deltaTime * Player.PlayTimeScale);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+													Quaternion.LookRotation(targetPos - transform.position), 
+													30 * Time.deltaTime);
+		transform.Translate(Vector3.forward * 5 * Time.deltaTime);
 
 		if (transform.position.z <= -2)
 		{
@@ -32,11 +32,11 @@ public class EnemyProjectile : Enemy
 	}
 	public override void Attack()
 	{
-		Player.GetPlayer().Attacked(damage);
+		Player.Instance.Attacked(damage);
 	}
 	public override void Land()
 	{
-
+		//Doing nothing
 	}
 	public override void Death()
 	{
@@ -46,9 +46,9 @@ public class EnemyProjectile : Enemy
 	}
 	public override void SetTargetPos()
 	{
-		float x = (transform.position + transform.forward * Vector3.Distance(transform.position, Player.GetPlayer().transform.position)).x;
+		float x = (transform.position + transform.forward * Vector3.Distance(transform.position, Player.Instance.transform.position)).x;
 		float y = 1;
-		float z = Player.GetPlayer().transform.position.z;
+		float z = Player.Instance.transform.position.z;
 		targetPos = new Vector3(x, y, z);
 	}
 }

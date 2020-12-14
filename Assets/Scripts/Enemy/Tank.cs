@@ -1,27 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Tank : Enemy
 {
-	[SerializeField] GameObject explosion;
-	[SerializeField] GameObject muzzleFlash;
+	[SerializeField] 
+	private GameObject explosion = null;
+	[SerializeField]
+	GameObject muzzleFlash = null;
 
-	private bool isArrived;
-	public bool IsArrived { get { return isArrived; } }
+	public bool IsArrived { get; private set; }
+	public bool IsStopped { get; private set; }
 
-	[SerializeField]private bool isStopped;
-	public bool IsStopped { get { return isStopped; } }
+	private Transform colChecker = null;
+	private Collider[] obstacles = null;
 
-	private Transform colChecker;
-	private Collider[] obstacles;
-
-	[SerializeField]private Obstacle curObstacle;
-	public Obstacle CurObstacle { get { return curObstacle; } }
+	public Obstacle CurObstacle { get; private set; }
 
 	public float Speed { get { return speed; } }
 
-	private Vector3 targetPos;
+	private Vector3 targetPos = Vector3.zero;
 
 	private void Awake()
 	{
@@ -33,66 +29,66 @@ public class Tank : Enemy
 		coolCounter = 0;
 		isCoolDown = true;
 
-		isArrived = false;
-		isStopped = true;
+		IsArrived = false;
+		IsStopped = true;
 		colChecker = transform.Find("Checker");
 
 		targetPos = Vector3.zero;
 	}
 	private void Update()
 	{
-		if (isArrived)//Attack state
+		if (IsArrived)//Attack state
 		{
-			coolCounter += Time.deltaTime * Player.PlayTimeScale;
+			coolCounter += Time.deltaTime;
 			if (coolCounter >= 0.12f)
 				muzzleFlash.SetActive(false);
 			if (coolCounter >= coolTime)
 			{
 				muzzleFlash.SetActive(true);
-				Player.GetPlayer().Attacked(damage);
+				Player.Instance.Attacked(damage);
 				coolCounter = 0;
 			}
 		}
 		else if(transform.parent == null)//Moving state
 		{
 			CollisionCheck();
-			if (isStopped)//Slow down and then stop due to obstacle
+			if (IsStopped)//Slow down and then stop due to obstacle
 			{
-				float increase = (25 / (speed+0.001f)) * Time.deltaTime * Player.PlayTimeScale;
+				float increase = (25 / (speed+0.001f)) * Time.deltaTime;
 				speed = Mathf.Clamp(speed - increase, 0, 4);
 			}
 			else// accelerate when there's nothing blocking
 			{
-				float increase = (Mathf.Log(speed+1.5f))*Time.deltaTime * Player.PlayTimeScale;
+				float increase = (Mathf.Log(speed+1.5f))*Time.deltaTime;
 				speed = Mathf.Clamp(speed+increase, 0, 4);
 			}
-			transform.Translate(Vector3.forward * speed * Time.deltaTime * Player.PlayTimeScale);
+			transform.Translate(Vector3.forward * speed * Time.deltaTime);
 			if (targetPos != Vector3.zero)
 			{
 				transform.rotation = Quaternion.RotateTowards(transform.rotation,
 															Quaternion.LookRotation(targetPos - transform.position),
-															10 * Time.deltaTime * Player.PlayTimeScale);
+															10 * Time.deltaTime);
 
 				if (transform.position.z <= targetPos.z + 2)
 				{
-					isArrived = true;
+					IsArrived = true;
 				}
 			}
 		}
 	}
 	private void CollisionCheck()
 	{
-		isStopped = false;
-		curObstacle = null;
-		obstacles = Physics.OverlapSphere(colChecker.position, 1, 1 << 9);
+		IsStopped = false;
+		CurObstacle = null;
+		obstacles = Physics.OverlapSphere(colChecker.position, 1, Player.ENEMY_LAYER);
 		if (obstacles.Length > 0)
 		{
 			for (int i = 0; i < obstacles.Length; i++)
 			{
 				if (obstacles[i].transform.parent.GetComponent<Obstacle>() != null)
 				{
-					curObstacle = obstacles[i].transform.parent.GetComponent<Obstacle>();
-					isStopped = true;
+					CurObstacle = obstacles[i].transform.parent.GetComponent<Obstacle>();
+					IsStopped = true;
 				}
 			}
 		}
@@ -100,18 +96,18 @@ public class Tank : Enemy
 	public override void Attack()
 	{
 		muzzleFlash.SetActive(true);
-		Player.GetPlayer().Attacked(damage);
+		Player.Instance.Attacked(damage);
 	}
 	public override void Death()
 	{
-		Player.ReduceRemainingEnemy();
+		Player.Instance.ReduceRemainingEnemy();
 		GameObject temp = (GameObject)Instantiate(explosion, transform.position, explosion.transform.rotation);
 		Destroy(temp, 2);
 		Destroy(gameObject);
 	}
 	public override void Land()
 	{
-		isStopped = false;
+		IsStopped = false;
 		transform.parent = null;
 	}
 	public override void SetTargetPos()

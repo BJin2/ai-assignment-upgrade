@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Lieutenant : Humanoid 
 {
-	[SerializeField] private GameObject mortarAmmo;
-	[SerializeField] private Transform mortarSpawn;
-	private Vector3 tempHit;
-	private float hitDist;
+	[SerializeField] 
+	private GameObject mortarAmmo = null;
+	[SerializeField] 
+	private Transform mortarSpawn = null;
+	private Vector3 tempHit = Vector3.zero;
+	private float hitDist = 0.0f;
 
-	private bool hasAttacked;
-	private float mortarCoolTIme;
-	private float mortarCoolCount;
-	private int prevRotDir;
-	private float tempSpeed;
+	private bool hasAttacked = false;
+	private float mortarCoolTIme = 0.0f;
+	private float mortarCoolCount = 0.0f;
+	private int prevRotDir = 0;
+	private float tempSpeed = 0.0f;
+
 	protected new void Awake()
 	{
 		base.Awake();
@@ -28,7 +29,7 @@ public class Lieutenant : Humanoid
 		if (anim.GetBool("isHiding"))
 		{
 			hasAttacked = true;
-			mortarCoolCount += Time.deltaTime * Player.PlayTimeScale;
+			mortarCoolCount += Time.deltaTime;
 			if (mortarCoolCount >= mortarCoolTIme && mortarCoolCount < mortarCoolTIme*2)
 			{
 				MortarAttack();
@@ -43,7 +44,7 @@ public class Lieutenant : Humanoid
 		}
 		else
 		{
-			tempHit = new Vector3(Player.HitPoint.x, transform.position.y, Player.HitPoint.z);
+			tempHit = new Vector3(Player.Instance.HitPoint.x, transform.position.y, Player.Instance.HitPoint.z);
 			hitDist = Vector3.Distance(tempHit, transform.position);
 			if (hitDist <= 1.0f)
 			{
@@ -54,7 +55,7 @@ public class Lieutenant : Humanoid
 		DynamicRotatation();
 		
 		//Move to target (Straight)
-		transform.Translate(transform.forward * speed * Time.deltaTime * Player.PlayTimeScale);
+		transform.Translate(transform.forward * speed * Time.deltaTime);
 		if (transform.position.z <= targetPos.z)// Arrived
 		{
 			InAttackRange();
@@ -78,18 +79,18 @@ public class Lieutenant : Humanoid
 				case 0://Turn Toward target
 					transform.rotation = Quaternion.RotateTowards(transform.rotation,
 															Quaternion.LookRotation(targetPos - transform.position),
-															90 * Time.deltaTime * Player.PlayTimeScale);
+															90 * Time.deltaTime);
 					break;
 				case 1://Turn Right
-					transform.Rotate(0, 90 * Time.deltaTime * Player.PlayTimeScale, 0);
+					transform.Rotate(0, 90 * Time.deltaTime, 0);
 					break;
 				case -1://Turn Left
-					transform.Rotate(0, -90 * Time.deltaTime * Player.PlayTimeScale, 0);
+					transform.Rotate(0, -90 * Time.deltaTime, 0);
 					break;
 				case 2://When running away from player's aim
 					transform.rotation = Quaternion.RotateTowards(transform.rotation,
 															Quaternion.LookRotation(transform.position - tempHit),
-															90 * Time.deltaTime * Player.PlayTimeScale);
+															90 * Time.deltaTime);
 					break;
 			}
 			if (!hasAttacked && ((prevRotDir == -1) || (prevRotDir == 1) && rotDir == 0))

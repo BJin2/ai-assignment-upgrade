@@ -1411,7 +1411,7 @@ GameObject:
   - component: {fileID: 4640907946029190}
   - component: {fileID: 54200798931624168}
   - component: {fileID: 136397683542699536}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Bip001
   m_TagString: Enemy
   m_Icon: {fileID: 0}

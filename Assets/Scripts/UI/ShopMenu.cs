@@ -32,9 +32,9 @@ public class ShopMenu : MonoBehaviour
 	}
 	public void Buy(int index)
 	{
-		if (Player.GetPlayer().GetMoney() >= priceList[index])
+		if (Player.Instance.GetMoney() >= priceList[index])
 		{
-			Player.GetPlayer().Earn(priceList[index] * (-1));
+			Player.Instance.Earn(priceList[index] * (-1));
 			weaponList[index].SetActive(true);
 			isUnlocked[index] = true;
 			buttonList[index].gameObject.SetActive(false);
@@ -42,9 +42,9 @@ public class ShopMenu : MonoBehaviour
 	}
 	public void Upgrade(int index)
 	{
-		if (Player.GetPlayer().GetMoney() >= priceList[index] && isUnlocked[index - 1])
+		if (Player.Instance.GetMoney() >= priceList[index] && isUnlocked[index - 1])
 		{
-			Player.GetPlayer().Earn(priceList[index] * (-1));
+			Player.Instance.Earn(priceList[index] * (-1));
 			weaponList[index - 1].SetActive(false);
 			weaponList[index].SetActive(true);
 			buttonList[index].gameObject.SetActive(false);
@@ -52,7 +52,7 @@ public class ShopMenu : MonoBehaviour
 	}
 	public void Back()
 	{
-		Player.PlayTimeScale = 1.0f;
+		Time.timeScale = 1.0f;
 		gameObject.SetActive(false);
 	}
 }

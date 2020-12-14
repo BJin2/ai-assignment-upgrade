@@ -3668,7 +3668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4168637992212416}
   - component: {fileID: 65162730370139070}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Enemy
   m_Icon: {fileID: 0}
