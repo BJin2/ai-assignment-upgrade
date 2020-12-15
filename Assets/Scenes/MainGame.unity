@@ -23582,6 +23582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overlays:
   - {fileID: 1911216369}
+  - {fileID: 1551682272}
 --- !u!4 &908379673
 Transform:
   m_ObjectHideFlags: 0
@@ -38801,7 +38802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1551682268
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,21 +20,22 @@ public class ShopMenu : Overlay
 	{
 		string jsonstring = (Resources.Load(@"ShopItem", typeof(TextAsset)) as TextAsset).text;
 		items = JsonUtility.FromJson<ShopItemCollection>(jsonstring);
+		Debug.Log(items);
 	}
 
 	private void Awake()
 	{
-		for (int i = 0; i < 6; i++)
-		{
-			isUnlocked[i] = false;
-			weaponList[i].SetActive(false);
-			priceList[i] = 50 * i;
-			priceTextList[i].text = priceList[i].ToString();
-		}
-		isUnlocked[0] = true;
-		weaponList[0].SetActive(true);
-		buttonList[0].gameObject.SetActive(false);
-		priceTextList[0].gameObject.SetActive(false);
+		//for (int i = 0; i < 6; i++)
+		//{
+		//	isUnlocked[i] = false;
+		//	weaponList[i].SetActive(false);
+		//	priceList[i] = 50 * i;
+		//	priceTextList[i].text = priceList[i].ToString();
+		//}
+		//isUnlocked[0] = true;
+		//weaponList[0].SetActive(true);
+		//buttonList[0].gameObject.SetActive(false);
+		//priceTextList[0].gameObject.SetActive(false);
 	}
 	private void Start()
 	{
@@ -76,6 +77,23 @@ public class ShopItemCollection
 		public int id;
 		public int price;
 		public string name;
+		public override string ToString()
+		{
+			string result = "";
+			result += $"id : {id}\n";
+			result += $"price : {price}\n";
+			result += $"name : {name}\n";
+			return result;
+		}
 	}
 	public List<ShopItem> items;
+	public override string ToString()
+	{
+		string result = $"ShopItemCollection\nitem count : {items.Count}\n";
+		for (int i = 0; i < items.Count; i++)
+		{
+			result += items[i].ToString();
+		}
+		return result;
+	}
 }
