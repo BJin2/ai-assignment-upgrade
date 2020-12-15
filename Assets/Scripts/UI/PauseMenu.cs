@@ -32,6 +32,36 @@ public class PauseMenu : Overlay
 
 	private Dictionary<string, Button> buttons = null;
 
+	public override void Initialize()
+	{
+		if (buttons == null)
+		{
+			buttons = new Dictionary<string, Button>();
+			foreach (Button button in transform.Find("Buttons").GetComponentsInChildren<Button>())
+			{
+				buttons.Add(button.gameObject.name, button);
+			}
+		}
+
+		buttons["Resume"].onClick.AddListener(() =>
+		{
+			Time.timeScale = 1.0f;
+			gameObject.SetActive(false);
+		});
+		buttons["Restart"].onClick.AddListener(() =>
+		{
+			Time.timeScale = 1.0f;
+			SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
+		});
+		buttons["Exit"].onClick.AddListener(() =>
+		{
+			Time.timeScale = 1.0f;
+			SceneManager.LoadScene("MainMenu");
+		});
+		Player.Instance.OnDeath += Lose;
+		Player.Instance.OnPause += Pause;
+	}
+
 	private void TurnOn()
 	{
 		foreach (Button button in buttons.Values)
@@ -58,33 +88,5 @@ public class PauseMenu : Overlay
 		gameObject.GetComponent<Animator>().Play("Death");
 	}
 
-	public override void Initialize()
-	{
-		if (buttons == null)
-		{
-			buttons = new Dictionary<string, Button>();
-			foreach (Button button in transform.Find("Buttons").GetComponentsInChildren<Button>())
-			{
-				buttons.Add(button.gameObject.name, button);
-			}
-		}
-
-		buttons["Resume"].onClick.AddListener(()=>
-		{
-			Time.timeScale = 1.0f;
-			gameObject.SetActive(false);
-		});
-		buttons["Restart"].onClick.AddListener(()=>
-		{
-			Time.timeScale = 1.0f;
-			SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
-		});
-		buttons["Exit"].onClick.AddListener(()=> 
-		{
-			Time.timeScale = 1.0f;
-			SceneManager.LoadScene("MainMenu");
-		});
-		Player.Instance.OnDeath += Lose;
-		Player.Instance.OnPause += Pause;
-	}
+	
 }

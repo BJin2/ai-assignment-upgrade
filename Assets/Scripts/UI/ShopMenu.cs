@@ -1,14 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopMenu : MonoBehaviour 
+public class ShopMenu : Overlay 
 {
-	[SerializeField] private GameObject[] weaponList = new GameObject[6];
-	[SerializeField] private Button[] buttonList = new Button[6];
-	[SerializeField] private Text[] priceTextList = new Text[6];
+	[SerializeField] 
+	private GameObject[] weaponList = new GameObject[6];
+	[SerializeField] 
+	private Button[] buttonList = new Button[6];
+	[SerializeField] 
+	private Text[] priceTextList = new Text[6];
+
 	private int[] priceList = new int[6];
 	private bool[] isUnlocked = new bool[6];
 
+	ShopItemCollection items;
+
+	public override void Initialize()
+	{
+		string jsonstring = (Resources.Load(@"ShopItem", typeof(TextAsset)) as TextAsset).text;
+		items = JsonUtility.FromJson<ShopItemCollection>(jsonstring);
+	}
 
 	private void Awake()
 	{
@@ -53,4 +65,17 @@ public class ShopMenu : MonoBehaviour
 		Time.timeScale = 1.0f;
 		gameObject.SetActive(false);
 	}
+}
+
+[System.Serializable]
+public class ShopItemCollection
+{
+	[System.Serializable]
+	public class ShopItem
+	{
+		public int id;
+		public int price;
+		public string name;
+	}
+	public List<ShopItem> items;
 }
