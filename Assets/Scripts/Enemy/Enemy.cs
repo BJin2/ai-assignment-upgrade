@@ -1,7 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour 
 {
+	public static int Remaining { get; set; }
+	public static event Action OnGameClear = null;
+	protected void GameClear()
+	{
+		OnGameClear?.Invoke();
+	}
+
 	protected int reward;
 	protected int type;	// 0 = ship or tank			1 = human
 
@@ -33,7 +41,6 @@ public abstract class Enemy : MonoBehaviour
 				Death();
 			}
 		}
-
     }
 	public int GetEnemyType()
 	{

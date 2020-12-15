@@ -134,7 +134,12 @@ public abstract class Humanoid : Enemy
 
 	public override void Death()
 	{
-		Player.Instance.ReduceRemainingEnemy();
+		Remaining--;
+		HUD.Instance.UpdateNumOfEnemy(Remaining);
+		if (Remaining <= 0)
+		{
+			GameClear();
+		}
 		ragdoll.transform.position = ragdollTransform.position;
 		ragdoll.transform.rotation = ragdollTransform.rotation;
 		ragdoll.transform.parent = null;

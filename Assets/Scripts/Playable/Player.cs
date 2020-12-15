@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour 
@@ -15,7 +14,8 @@ public class Player : MonoBehaviour
 	//Player status
 	private int money = 0;
 	private float health = 0;
-	private const float MAX_HEALTH = 1000;
+	private const float MAX_HEALTH = 10;
+	public bool Dead { get; private set; }
 
 	//Targeting
     private RaycastHit hit;
@@ -33,29 +33,26 @@ public class Player : MonoBehaviour
 
     private bool isCooldown;
 
-	private int RemainingEnemy = -1;
-
-	private GameObject pauseMenu;
-	private GameObject shopMenu;
-	private GameObject gameoverMenu;
-	private GameObject winMenu;
-	private HUD hud;
+	//Events
+	public event Action OnPause = null;
+	public event Action OnDeath = null;
 
 	private void Awake()
 	{
 		Instance = this;
-
-		pauseMenu = GameObject.Find("PauseMenu");
-		shopMenu = GameObject.Find("ShopMenu");
-		gameoverMenu = GameObject.Find("GameoverMenu");
-		winMenu = GameObject.Find("WinMenu");
-		hud = GameObject.Find("HUD").GetComponent<HUD>();
 		weaponList = new Weapon[6];
 		for (int i = 0; i < 6; i++)
 		{
 			weaponList[i] = transform.Find(i.ToString()).GetComponent<Weapon>(); ;
 		}
+		OnDeath += ()=>
+		{
+			gameObject.GetComponent<Animator>().Play("Death");
+			Destroy(this);
+		};
+		Dead = false;
 	}
+
 	private void Start ()
 	{
 		foreach (Weapon weapon in weaponList)
@@ -71,7 +68,7 @@ public class Player : MonoBehaviour
 		targetEnemy = null;
 
 		weaponList[curWeaponIndex].gameObject.SetActive(true);
-		hud.UpdateAll(money, RemainingEnemy, weaponList[curWeaponIndex].CoolCounter, health);
+		HUD.Instance.UpdateAll(_resource: money, _coolTime : weaponList[curWeaponIndex].CoolCounter, _hp : health);
 	}
 	
 	private void Update () 
@@ -81,12 +78,8 @@ public class Player : MonoBehaviour
 
         //Raycast (To where the mouse cursor is pointing)
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if (Physics.Raycast(ray, out hit, 80, layerMask)) // Detect Default Layer only
+		if (Physics.Raycast(ray, out hit, 80, layerMask))
 		{
-			/*/
-			if (hit.collider.isTrigger == true)
-				Debug.Log("Trigger");
-			//*/
 			weaponToSelect = null;
 			targetEnemy = null;
 			if(hit.collider.tag == "Weapon") // When selecting weapon
@@ -100,7 +93,7 @@ public class Player : MonoBehaviour
 
 			HitPoint = hit.point;
 		}
-		else
+		else // hitting nothing
 		{
 			HitPoint = new Vector3(100, 100, 100);
 			weaponToSelect = null;
@@ -139,19 +132,18 @@ public class Player : MonoBehaviour
 				}
 				else // Open Shop
 				{
-					shopMenu.SetActive(true);
+					//TODO shopMenu.SetActive(true);
 				}
 			}
-			else if (isCooldown && Time.timeScale > 0) // Shoot
+			else if (isCooldown) // Shoot
 			{
 				weaponList[curWeaponIndex].Fire(targetEnemy, HitPoint);
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale  != 0)
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			Time.timeScale = 0;
-			pauseMenu.SetActive(true);
+			OnPause?.Invoke();
 		}
 		else if (Input.GetKeyDown(KeyCode.Space))//For test
 		{
@@ -160,11 +152,11 @@ public class Player : MonoBehaviour
 
 		if (isCooldown)
 		{
-			hud.UpdateCoolTime(0);
+			HUD.Instance.UpdateCoolTime(0);
 		}
 		else
 		{
-			hud.UpdateCoolTime(weaponList[curWeaponIndex].CoolCounter);
+			HUD.Instance.UpdateCoolTime(weaponList[curWeaponIndex].CoolCounter);
 		}
 
         //Player Rotation(Rotate toward cursor)
@@ -179,7 +171,7 @@ public class Player : MonoBehaviour
 	public void Earn(int amount)
 	{
 		money += amount;
-		hud.UpdateResource(money);
+		HUD.Instance.UpdateResource(money);
 	}
 	public int GetMoney()
 	{
@@ -187,40 +179,28 @@ public class Player : MonoBehaviour
 	}
 	public void Attacked(float dmg)
 	{
+		if (Dead)
+			return;
 		health -= dmg;
 		if (health <= 0)
 		{
-			health = 0;
+			HUD.Instance.UpdateHP(0);
 			Debug.Log("Game Over");
-			//*
+			/*
 			Time.timeScale = 0;
 			pauseMenu.SetActive(false);
 			shopMenu.SetActive(false);
 			gameoverMenu.SetActive(true);
 			//*/
+			OnDeath?.Invoke();
+			Dead = true;
 		}
-		hud.UpdateHP(health);
+		HUD.Instance.UpdateHP(health);
 	}
-	public void ResetHealth()
+
+//Testing
+	private void ResetHealth()
 	{
 		health = MAX_HEALTH;
-	}
-	public void SetInitialRemainingEnemy(int num)
-	{
-		if (RemainingEnemy == -1)
-		{
-			RemainingEnemy = num;
-		}
-	}
-	public void ReduceRemainingEnemy()
-	{
-		RemainingEnemy--;
-		if (RemainingEnemy <= 0)
-		{
-			RemainingEnemy = 0;
-			Time.timeScale = 0;
-			winMenu.SetActive(true);
-		}
-		hud.UpdateNumOfEnemy(RemainingEnemy);
 	}
 }

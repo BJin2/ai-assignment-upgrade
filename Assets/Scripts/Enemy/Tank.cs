@@ -100,7 +100,12 @@ public class Tank : Enemy
 	}
 	public override void Death()
 	{
-		Player.Instance.ReduceRemainingEnemy();
+		Remaining--;
+		HUD.Instance.UpdateNumOfEnemy(Remaining);
+		if (Remaining <= 0)
+		{
+			GameClear();
+		}
 		GameObject temp = (GameObject)Instantiate(explosion, transform.position, explosion.transform.rotation);
 		Destroy(temp, 2);
 		Destroy(gameObject);
