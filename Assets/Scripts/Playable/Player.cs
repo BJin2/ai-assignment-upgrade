@@ -10,7 +10,19 @@ public class Player : MonoBehaviour
 	private int curWeaponIndex = 0;
 
 	//Player status
-	private int money = 0;
+	private int resource = 0;
+	public int Resource
+	{
+		get
+		{
+			return resource;
+		}
+		set
+		{
+			resource = value;
+			HUD.Instance.UpdateResource(resource);
+		}
+	}
 	private float health = 0;
 	private const float MAX_HEALTH = 10;
 
@@ -54,13 +66,13 @@ public class Player : MonoBehaviour
 			weapon.gameObject.SetActive(false);
 		}
 		curWeaponIndex = 0;
-		money = 0;
+		Resource = 0;
 		health = MAX_HEALTH;
 		layerMask = BOTH_LAYER;
 		targetEnemy = null;
 
 		weaponList[curWeaponIndex].ActivateWeapon(true);
-		HUD.Instance.UpdateAll(_resource: money, _coolTime : weaponList[curWeaponIndex].CoolCounter, _hp : health);
+		HUD.Instance.UpdateAll(_coolTime : weaponList[curWeaponIndex].CoolCounter, _hp : health);
 	}
 	
 	private void Update () 
@@ -155,15 +167,6 @@ public class Player : MonoBehaviour
         lookRot = Quaternion.LookRotation(targetPos - transform.position);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRot, 40 * Time.timeScale);
 	}
-	public void Earn(int amount)
-	{
-		money += amount;
-		HUD.Instance.UpdateResource(money);
-	}
-	public int GetMoney()
-	{
-		return money;
-	}
 	public void Attacked(float dmg)
 	{
 		if (health <= 0)
@@ -173,13 +176,6 @@ public class Player : MonoBehaviour
 		if (health <= 0)
 		{
 			HUD.Instance.UpdateHP(0);
-			Debug.Log("Game Over");
-			/*
-			Time.timeScale = 0;
-			pauseMenu.SetActive(false);
-			shopMenu.SetActive(false);
-			gameoverMenu.SetActive(true);
-			//*/
 			OnDeath?.Invoke();
 			OnDeath = null;
 		}

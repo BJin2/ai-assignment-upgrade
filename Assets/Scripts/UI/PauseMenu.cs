@@ -84,7 +84,6 @@ public class PauseMenu : Overlay
 		TurnOn();
 		buttons["Resume"].gameObject.SetActive(false);
 		Title.text = "Time paradox occurred";
-		CameraMove.Instance.GetComponent<Animator>().Play("Death");
 		gameObject.GetComponent<Animator>().Play("Death");
 	}
 

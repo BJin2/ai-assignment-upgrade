@@ -37,7 +37,7 @@ public abstract class Enemy : MonoBehaviour
 			health -= dmg;
 			if (health <= 0)
 			{
-				Player.Instance.Earn(reward);
+				Player.Instance.Resource += reward;
 				Death();
 			}
 		}

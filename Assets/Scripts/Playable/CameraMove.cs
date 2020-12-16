@@ -25,7 +25,13 @@ public class CameraMove : MonoBehaviour
         }
         Instance = this;
         gameObject.GetComponent<Animator>().enabled = false;
-        Player.Instance.OnDeath += () => { gameObject.GetComponent<Animator>().enabled = true; this.enabled = false; };
+        Player.Instance.OnDeath += () => 
+        {
+            Animator anim = gameObject.GetComponent<Animator>();
+            anim.enabled = true;
+            anim.Play("Death");
+            this.enabled = false;
+        };
 
         prev_x = Input.mousePosition.x;
         delta_x = 0;
