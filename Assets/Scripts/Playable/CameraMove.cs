@@ -19,11 +19,14 @@ public class CameraMove : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(Instance.gameObject);
+        }
         Instance = this;
-    }
+        gameObject.GetComponent<Animator>().enabled = false;
+        Player.Instance.OnDeath += () => { gameObject.GetComponent<Animator>().enabled = true; this.enabled = false; };
 
-    private void Start()
-    {
         prev_x = Input.mousePosition.x;
         delta_x = 0;
         rot_y = transform.rotation.eulerAngles.y + delta_x * Time.deltaTime * sensitivity_x;
@@ -32,7 +35,7 @@ public class CameraMove : MonoBehaviour
         isMoved = false;
     }
 
-	private void Update () 
+	private void Update ()
     {
         delta_x = Input.mousePosition.x - prev_x;
         prev_x = Input.mousePosition.x;

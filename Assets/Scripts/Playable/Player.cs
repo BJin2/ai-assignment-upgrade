@@ -6,16 +6,13 @@ public class Player : MonoBehaviour
 	public static Player Instance { get; private set; }
 
 	//Weapon
-	[SerializeField]
 	private Weapon[] weaponList = null;
-	private WeaponSelect weaponToSelect = null;
 	private int curWeaponIndex = 0;
 
 	//Player status
 	private int money = 0;
 	private float health = 0;
 	private const float MAX_HEALTH = 10;
-	public bool Dead { get; private set; }
 
 	//Targeting
     private RaycastHit hit;
@@ -30,8 +27,6 @@ public class Player : MonoBehaviour
 
 	private Enemy targetEnemy = null;
 	public Vector3 HitPoint { get; private set; }
-
-    private bool isCooldown;
 
 	//Events
 	public event Action OnPause = null;
@@ -50,7 +45,6 @@ public class Player : MonoBehaviour
 			gameObject.GetComponent<Animator>().Play("Death");
 			Destroy(this);
 		};
-		Dead = false;
 	}
 
 	private void Start ()
@@ -59,15 +53,13 @@ public class Player : MonoBehaviour
 		{
 			weapon.gameObject.SetActive(false);
 		}
-		weaponToSelect = null;
 		curWeaponIndex = 0;
 		money = 0;
 		health = MAX_HEALTH;
 		layerMask = BOTH_LAYER;
-		isCooldown = true;
 		targetEnemy = null;
 
-		weaponList[curWeaponIndex].gameObject.SetActive(true);
+		weaponList[curWeaponIndex].ActivateWeapon(true);
 		HUD.Instance.UpdateAll(_resource: money, _coolTime : weaponList[curWeaponIndex].CoolCounter, _hp : health);
 	}
 	
@@ -76,8 +68,16 @@ public class Player : MonoBehaviour
 		if (Time.deltaTime == 0.0f)
 			return;
 
-        //Raycast (To where the mouse cursor is pointing)
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		WeaponSelect weaponToSelect = null;
+		Weapon currWeapon = weaponList[curWeaponIndex];
+
+		foreach (Weapon weapon in weaponList)
+		{
+			weapon.CoolDown();
+		}
+
+		//Raycast (To where the mouse cursor is pointing)
+		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		if (Physics.Raycast(ray, out hit, 80, layerMask))
 		{
 			weaponToSelect = null;
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
 
 		if (layerMask != BOTH_LAYER)	// When aiming with mortar or air support
 		{
-			weaponList[curWeaponIndex].HitPoint = HitPoint;
+			currWeapon.HitPoint = HitPoint;
 		}
 
 		//Shoot or Select Weapon
@@ -113,31 +113,22 @@ public class Player : MonoBehaviour
 			{
 				if (weaponToSelect.WeaponType >= 0) // Select Weapon
 				{
-					weaponList[curWeaponIndex].WeaponDeactivated();
-					weaponList[curWeaponIndex].gameObject.SetActive(false);
+					currWeapon.ActivateWeapon(false);
 
 					curWeaponIndex = weaponToSelect.WeaponType;
+					currWeapon = weaponList[curWeaponIndex];
 
-					weaponList[curWeaponIndex].gameObject.SetActive(true);
-					weaponList[curWeaponIndex].WeaponActivated();
+					currWeapon.ActivateWeapon(true);
 					layerMask = weaponToSelect.LayerMask;
-					if (weaponList[curWeaponIndex].CoolCounter <= 0)
-					{
-						CoolDown(true);
-					}
-					else
-					{
-						CoolDown(false);
-					}
 				}
 				else // Open Shop
 				{
 					//TODO shopMenu.SetActive(true);
 				}
 			}
-			else if (isCooldown) // Shoot
+			else if (currWeapon.Cooled) // Shoot
 			{
-				weaponList[curWeaponIndex].Fire(targetEnemy, HitPoint);
+				currWeapon.Fire(targetEnemy, HitPoint);
 			}
 		}
 
@@ -150,23 +141,19 @@ public class Player : MonoBehaviour
 			ResetHealth();
 		}
 
-		if (isCooldown)
+		if (currWeapon.Cooled)
 		{
 			HUD.Instance.UpdateCoolTime(0);
 		}
 		else
 		{
-			HUD.Instance.UpdateCoolTime(weaponList[curWeaponIndex].CoolCounter);
+			HUD.Instance.UpdateCoolTime(currWeapon.CoolCounter);
 		}
 
         //Player Rotation(Rotate toward cursor)
         targetPos = new Vector3(ray.direction.x*1.3f, transform.position.y, ray.direction.z);
         lookRot = Quaternion.LookRotation(targetPos - transform.position);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRot, 40 * Time.timeScale);
-	}
-	public void CoolDown(bool cooled)
-	{
-		isCooldown = cooled;
 	}
 	public void Earn(int amount)
 	{
@@ -179,8 +166,9 @@ public class Player : MonoBehaviour
 	}
 	public void Attacked(float dmg)
 	{
-		if (Dead)
+		if (health <= 0)
 			return;
+
 		health -= dmg;
 		if (health <= 0)
 		{
@@ -193,7 +181,7 @@ public class Player : MonoBehaviour
 			gameoverMenu.SetActive(true);
 			//*/
 			OnDeath?.Invoke();
-			Dead = true;
+			OnDeath = null;
 		}
 		HUD.Instance.UpdateHP(health);
 	}

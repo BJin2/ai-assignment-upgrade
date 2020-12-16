@@ -5,47 +5,38 @@ public class Mortar : Weapon
 	private static Transform aim = null;
 	private Transform spawner = null;
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
+
 		if(aim == null)
 			aim = GameObject.Find("Mortar_Aim").transform;
 		spawner = transform.Find("Spawner");
 		effect.GetComponent<PlayerProjectile>().Damage = damage;
-		WeaponDeactivated();
+
+		WeaponActivated += () =>
+		{
+			aim.gameObject.SetActive(true);
+		};
+		WeaponDeactivated += () =>
+		{
+			aim.gameObject.SetActive(false);
+			HitPoint = Vector3.zero;
+		};
 	}
 
 	private void Update()
 	{
-		if (hitPoint != Vector3.zero)
+		if (HitPoint != Vector3.zero)
 		{
-			aim.position = new Vector3(hitPoint.x, 1.0f, hitPoint.z);
-		}
-
-		coolCounter += Time.deltaTime;
-		if (coolCounter >= coolTime)
-		{
-			Player.Instance.CoolDown(true);
-			coolCounter = coolTime;
+			aim.position = new Vector3(HitPoint.x, 1.0f, HitPoint.z);
 		}
 	}
 	public override void Fire(Enemy enemy, Vector3 hitPoint)
 	{
-		effect.SetActive(true);
+		base.Fire(enemy, hitPoint);
 		effect.transform.position = spawner.position;
 		effect.transform.rotation = spawner.rotation;
 		effect.GetComponent<PlayerProjectile>().TargetPoint = aim.Find("Drop_Point").position;
-		Player.Instance.CoolDown(false);
-		CameraMove.Instance.Recoil(recoil);
-		coolCounter = 0;
-	}
-	public override void WeaponActivated()
-	{
-		aim.gameObject.SetActive(true);
-	}
-	public override void WeaponDeactivated()
-	{
-		ResetCoolTime();
-		aim.gameObject.SetActive(false);
-		hitPoint = Vector3.zero;
 	}
 }

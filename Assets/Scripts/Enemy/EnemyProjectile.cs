@@ -46,9 +46,21 @@ public class EnemyProjectile : Enemy
 	}
 	public override void SetTargetPos()
 	{
-		float x = (transform.position + transform.forward * Vector3.Distance(transform.position, Player.Instance.transform.position)).x;
+		
+		float dist;
+		float z;
+		try
+		{
+			dist = Vector3.Distance(transform.position, Player.Instance.transform.position);
+			z = Player.Instance.transform.position.z;
+		}
+		catch
+		{
+			dist = Vector3.Distance(transform.position, Vector3.zero);
+			z = -2.5f;
+		}
+		float x = (transform.position + transform.forward * dist).x;
 		float y = 1;
-		float z = Player.Instance.transform.position.z;
 		targetPos = new Vector3(x, y, z);
 	}
 }

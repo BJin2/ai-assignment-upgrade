@@ -13,6 +13,9 @@ public class Machinegun : Weapon
 
 	public override void Fire(Enemy enemy, Vector3 hitPoint)
 	{
+		base.Fire(enemy, hitPoint);
+		isEffectOn = true;
+
 		GameObject secondEffect;
 		if (enemy == null)
 		{
@@ -32,35 +35,13 @@ public class Machinegun : Weapon
 					secondEffect = null;
 					break;
 			}
-			
 			enemy.Attacked(damage);
 		}
-
-		Player.Instance.CoolDown(false);
-
-		CameraMove.Instance.Recoil(recoil);
-
-		effect.SetActive(true);
-		isEffectOn = true;
 		Destroy(secondEffect, 1);
 	}
-	public override void WeaponActivated()
-	{
-		
-	}
-	public override void WeaponDeactivated()
-	{
 
-	}
 	protected void Update()
 	{
-		coolCounter += Time.deltaTime;
-		if (coolCounter >= coolTime)
-		{
-			Player.Instance.CoolDown(true);
-			coolCounter = 0;
-		}
-
 		if (isEffectOn)
 		{
 			effectCounter += Time.deltaTime;

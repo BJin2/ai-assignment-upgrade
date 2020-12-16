@@ -6,8 +6,9 @@ public class Minigun : Machinegun
 {
 	private Transform barrel;
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		barrel = transform.Find("Barrel");
 	}
 	private new void Update()
