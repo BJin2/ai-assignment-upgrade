@@ -7052,7 +7052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 12
-  recoil: 0.018
+  recoil: 0.07
   coolTime: 0.12
   effect: {fileID: 1426634299}
   effect_02: {fileID: 1161895746464014, guid: 08933f477e0486d4090d95aaf1f92dba, type: 3}
